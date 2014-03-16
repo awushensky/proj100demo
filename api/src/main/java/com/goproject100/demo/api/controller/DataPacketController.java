@@ -39,7 +39,7 @@ public class DataPacketController {
      * @param numberToRetrieve the number of recent {@link DataPacket} objects to retrieve
      * @return a {@link List} of the {@link DataPacket} objects
      */
-    @RequestMapping(value = "/getPackets/{number}", method = RequestMethod.GET)
+    @RequestMapping(value = "/packets/{number}", method = RequestMethod.GET)
     public @ResponseBody List<DataPacket> getRecentPackets(final @PathVariable("number") int numberToRetrieve) {
         LOG.debug("GET request for the last {} data packets", numberToRetrieve);
 
