@@ -1,5 +1,8 @@
 package com.goproject100.demo.model;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * This class represents a latitude and longitude position.
  */
@@ -13,7 +16,8 @@ public class Position {
      * @param latitude the latitude of the position
      * @param longitude the longitude of the position
      */
-    public Position(final String latitude, final String longitude) {
+    @JsonCreator
+    public Position(@JsonProperty("lat") final String latitude, @JsonProperty("long") final String longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

@@ -16,9 +16,6 @@ Usage
 -----
 
 The following endpoints are available:
-* POST `/data`
-** posts a new data packet to the server with the data packet as the request body.
-* GET `/packets/{number}`
-** retrieves up to 10 of the most recent data packets.
-* POST `/registerEndpoint/{type}`
-** registers the URL provided as the post body to the type specified in the request.
+* POST `/data` - posts a new data packet to the server with the data packet as the request body.
+* GET `/packets/{number}` - retrieves up to 10 of the most recent data packets.
+* POST `/registerEndpoint/{type}` - registers the URL provided as the post body to the type specified in the request.
