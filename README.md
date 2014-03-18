@@ -11,7 +11,7 @@ This application is built using Maven for dependency management. It is designed 
 ##Running
 
 To compile the application:
-* Install Maven and run `mvn clean package` from the base directory
+* Install Maven and run `mvn clean package` from the base directory *(note: you may see exceptions during compile. These are test cases and are normal)*
 * This will create a .war file in the `/api/target` directory
 * Copy the war file to the `/webapps` directory of a Tomcat 7 instance
 * Start tomcat
