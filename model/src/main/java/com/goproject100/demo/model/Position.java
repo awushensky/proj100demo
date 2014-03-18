@@ -35,4 +35,12 @@ public class Position {
     public String getLongitude() {
         return longitude;
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                '}';
+    }
 }

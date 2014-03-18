@@ -131,6 +131,22 @@ public class DataPacketDAOTest {
     }
 
     /**
+     * Test registering a new listener for a {@link UserType} when a matching registration already exists.
+     */
+    @Test
+    public void testRegisterListenerUniqueViolation() throws Exception {
+
+        dataPacketDAO.registerListener("http://www.goproject100.com/1", UserType.CUSTOMER);
+
+        try {
+            dataPacketDAO.registerListener("http://www.goproject100.com/1", UserType.CUSTOMER);
+            Assert.fail();
+        } catch (Exception e) {
+            //pass
+        }
+    }
+
+    /**
      * Test receiving a new {@link com.goproject100.demo.model.DataPacket}.
      */
     @Test

@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class DataPacketServiceImpl implements DataPacketService {
     @Autowired
     private ExecutorService executorService;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Override
     public void receiveNewDataPacket(final DataPacket dataPacket) throws IOException {
         final String dataPacketString = mapper.writeValueAsString(dataPacket);
@@ -42,13 +46,14 @@ public class DataPacketServiceImpl implements DataPacketService {
         LOG.info("Notifying {} consumers of new data packet {}", consumerUrls.size(), dataPacket);
 
         for (String consumerUrl : consumerUrls) {
-            executorService.execute(new DataPacketNotifier(consumerUrl, dataPacket));
+            executorService.execute(new DataPacketNotifier(consumerUrl, dataPacket, restTemplate));
         }
     }
 
     @Override
     public void registerNewListener(final String url, final UserType type) {
         dataPacketDAO.registerListener(url, type);
+        LOG.info("Registered new listener {} for type {}", url, type);
     }
 
     @Override
@@ -56,11 +61,13 @@ public class DataPacketServiceImpl implements DataPacketService {
         final List<String> dataPacketStrings = dataPacketDAO.getDataPackets(type, Math.max(number, MAX_RETRIEVAL_NUMBER));
         final List<DataPacket> dataPackets = new ArrayList<>(dataPacketStrings.size());
 
-        LOG.debug("Retrieved {} DataPackets of type {} from the database", dataPacketStrings.size(), type);
+        LOG.info("Retrieved {} DataPackets of type {} from the database", dataPacketStrings.size(), type);
 
         for (String dataPacketString : dataPacketStrings) {
             dataPackets.add(mapper.readValue(dataPacketString, DataPacket.class));
         }
+
+        LOG.debug("Retrieved {} from the database", dataPackets);
 
         return dataPackets;
     }

@@ -7,16 +7,16 @@ public class DataPacketResponse {
 
     private final Status status;
     private final Object responseBody;
-    private final Exception exception;
+    private final String exception;
 
     /**
      * This private constructor forces the factory pattern on this object. Users must either create a successful
      * or failure response via the static factory methods.
      * @param status the {@link Status} of this response
      * @param responseBody the response for the call
-     * @param exception any {@link Exception} that occurred in receiving the new data
+     * @param exception any exception message that occurred in receiving the new data
      */
-    private DataPacketResponse(final Status status, final Object responseBody, final Exception exception) {
+    private DataPacketResponse(final Status status, final Object responseBody, final String exception) {
         this.status = status;
         this.responseBody = responseBody;
         this.exception = exception;
@@ -41,7 +41,7 @@ public class DataPacketResponse {
      * @param exception the exception that caused the failure
      * @return a generated failure response
      */
-    public static DataPacketResponse newFailureResponse(final Exception exception) {
+    public static DataPacketResponse newFailureResponse(final String exception) {
         return new DataPacketResponse(Status.FAILURE, null, exception);
     }
 
@@ -55,7 +55,7 @@ public class DataPacketResponse {
     /**
      * @return the exception (if any)
      */
-    public Exception getException() {
+    public String getException() {
         return exception;
     }
 

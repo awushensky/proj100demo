@@ -35,4 +35,12 @@ public class DataPacket {
     public UserType getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return "DataPacket{" +
+                "position=" + position +
+                ", type=" + type +
+                '}';
+    }
 }
