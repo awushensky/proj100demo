@@ -27,8 +27,47 @@ The following endpoints are available:
 
 ###Data Flow Diagrams
 
+The following data flow diagrams illustrate the three main use cases described in the problem.
+
+####Retrieving Packets
+![Get Packet Flow](/documentation/diagrams/get_packet_flow.png)
+
+####Registering Listeners
+![Get Packet Flow](/documentation/diagrams/register_listener_flow.png)
+
+####Receive Data Packet
+![Get Packet Flow](/documentation/diagrams/receive_packet_flow.png)
+
 ###Database Schema
 
+![DB Schema](/documentation/diagrams/db_schema.png)
+
+###Data Format
+
+The data packet is composed of the following JSON structure:
+```
+{
+  "position":{
+     "long":"100",
+     "lat":"100"
+  },
+  "type":"CUSTOMER"
+}
+```
+
+The responses from the server always take the following JSON form:
+```
+{
+  "status":"SUCCESS",
+  "response": [ list of data packets ],
+  "exception": "exception description"
+}
+```
+
+The following values are valid types:
+* `CUSTOMER`
+* `VEHICLE`
+* `SUPPORT_TECHNICIANS`
 
 ##Future Improvements
 
@@ -40,6 +79,11 @@ The code uses a java `enum` to enumerate the types of data packets. This is nice
 problems if the types of data packets changes with frequency. Any change to this enum requires a recompile and a
 redeploy. If the data packet types change regularly, it might make sense to replace the `enum` with a `string` and
 instead manage the types exclusively from the `types` database table.
+
+The database currently uses the `types` table to describe the types available. Other tables reference types by a
+non-enforcing foreign key. This reduces database footprint, but increases the complexity of queries and inserts. It
+might be worth it to switch to using strings in the tables for the types if database footprint is less of a concern than
+query or insert speed.
 
 The app keeps a record of every data packet that was ever sent through it. This has the benefit of good auditing, but
 the obvious disadvantage of potentially taking up tons of database space. If required, there are two ways of addressing
